@@ -17,7 +17,7 @@ export class AuthService {
    * Registers a new user with hashed password
    */
   async register(registerDto: RegisterDto) {
-    const { email, password } = registerDto;
+    const { email, password,role} = registerDto;
 
     const existing = await this.usersService.findByEmail(email);
     if (existing) {
@@ -25,7 +25,7 @@ export class AuthService {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    return this.usersService.create({ email, password: hashedPassword });
+    return this.usersService.create({ email, password: hashedPassword,role:role });
   }
 
 
@@ -34,7 +34,7 @@ export class AuthService {
       * Generates JWT access token
       */
     async login(user: any) {
-        const payload = { email: user.email, sub: user.id };
+        const payload = { email: user.email, sub: user.id,role: user.role };
         return {
             access_token: this.jwtService.sign(payload),
         };

@@ -1,6 +1,8 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm'
 
 
+export type UserRole = 'user' | 'admin';
+
 @Entity()
 export class User {
 
@@ -12,6 +14,9 @@ export class User {
 
     @Column()
     password: string;
+
+    @Column({ default: 'user' })
+    role: UserRole;
 
     @CreateDateColumn()
     createdAt: Date;
