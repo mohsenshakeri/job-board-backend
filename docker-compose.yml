@@ -20,8 +20,8 @@ services:
       - '5432:5432'
     environment:
       POSTGRES_DB: jobboard
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: jobboard_admin
+      POSTGRES_PASSWORD: admin_password
     volumes:
       - pgdata:/var/lib/postgresql/data
 
