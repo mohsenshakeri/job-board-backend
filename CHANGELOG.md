@@ -18,3 +18,6 @@ This project follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) an
 - Dockerized PostgreSQL and backend with shared `.env`
 
 ---
+- **Added role field to users and RegisterDto**
+- **Implemented role-based access control with @Roles decorator and RolesGuard**
+- **Included user role in JWT payload and request object for RBAC**

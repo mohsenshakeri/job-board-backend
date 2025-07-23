@@ -6,7 +6,8 @@ WORKDIR /app
 
 # 3. Install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm install 
+RUN npm install @nestjs/swagger swagger-ui-express
 
 # 4. Copy rest of app
 COPY . .
