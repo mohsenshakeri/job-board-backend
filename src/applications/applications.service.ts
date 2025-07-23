@@ -58,4 +58,10 @@ export class ApplicationsService {
         });
     }
 
+
+    async getAll(): Promise<Application[]> {
+        return this.appRepo.find({
+            order: { appliedAt: 'DESC' },
+        });
+    }
 }

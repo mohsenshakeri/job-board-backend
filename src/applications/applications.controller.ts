@@ -4,6 +4,8 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { CreateApplicationDto } from './dto/create-application.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Application } from './entities/application.entity';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 
 
@@ -38,4 +40,15 @@ export class ApplicationsController {
         return this.applicationsService.getApplicationsByUser(req.user.userId);
     }
 
+
+    @Get()
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('admin')
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get all job applications (admin only)' })
+    @ApiResponse({ status: 200, description: 'List of all applications', type: [Application] })
+    @ApiResponse({ status: 403, description: 'Forbidden' })
+    getAllApplications() {
+        return this.applicationsService.getAll();
+    }
 }
