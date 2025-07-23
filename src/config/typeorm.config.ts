@@ -1,5 +1,8 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { User } from 'src/users/entities/user.entity';
+import { Job } from 'src/jobs/entities/job.entity';
+import { Application } from 'src/applications/entities/application.entity';
 
 export const typeOrmConfig = {
   imports: [ConfigModule],
@@ -13,5 +16,6 @@ export const typeOrmConfig = {
     database: configService.get('DB_NAME'),
     autoLoadEntities: true,
     synchronize: true, // برای dev mode - در production غیرفعال کن
+    entities:[User,Job,Application]
   }),
 };
