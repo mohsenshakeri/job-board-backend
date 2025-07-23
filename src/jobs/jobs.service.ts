@@ -2,26 +2,29 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Job } from './entities/job.entity';
+import { CreateJobDto } from './dto/create-job.dto';
 
 @Injectable()
-export class JobsService implements OnModuleInit {
-  constructor(
-    @InjectRepository(Job)
-    private jobRepository: Repository<Job>,
-  ) {}
+export class JobsService {
+    constructor(
+        @InjectRepository(Job)
+        private jobRepository: Repository<Job>,
+    ) { }
 
-  async onModuleInit() {
-    const jobCount = await this.jobRepository.count();
-    if (jobCount === 0) {
-      const newJob = this.jobRepository.create({
-        title: 'NestJS Developer',
-        description: 'Develop APIs using NestJS and PostgreSQL',
-        company: 'OpenAI',
-        location: 'Remote',
-      });
-
-      await this.jobRepository.save(newJob);
-      console.log('✅ Test job created');
+    findAll(): Promise<Job[]> {
+        return this.jobRepository.find({
+            where: { isActive: true },
+            order: { createdAt: 'DESC' },
+        });
     }
-  }
+
+
+    async create(dto: CreateJobDto, userId: number): Promise<Job> {
+        const newJob = this.jobRepository.create({
+            ...dto,
+            createdBy: { id: userId },
+        });
+        return this.jobRepository.save(newJob);
+    }
+
 }
