@@ -51,4 +51,11 @@ export class ApplicationsService {
     }
 
 
+    async getApplicationsByUser(userId: number): Promise<Application[]> {
+        return this.appRepo.find({
+            where: { applicant: { id: userId } },
+            order: { appliedAt: 'DESC' },
+        });
+    }
+
 }

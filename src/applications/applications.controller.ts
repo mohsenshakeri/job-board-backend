@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { ApplicationsService } from './applications.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateApplicationDto } from './dto/create-application.dto';
@@ -25,6 +25,17 @@ export class ApplicationsController {
         @Request() req,
     ) {
         return this.applicationsService.apply(dto.jobId, req.user.userId);
+    }
+
+
+
+    @Get('me')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Get current user\'s job applications' })
+    @ApiResponse({ status: 200, description: 'List of user applications', type: [Application] })
+    getMyApplications(@Request() req) {
+        return this.applicationsService.getApplicationsByUser(req.user.userId);
     }
 
 }
